@@ -66,7 +66,7 @@ class Alien():
 
     def shoot(self):
         if __import__('random').choice([True, False]):
-            rocket = Rocket(self.rect.x, self.rect.y,
+            rocket = Rocket(self.rect.x+(self.rect.width/2), self.rect.y,
                             self.rocket_speed, True)
             global rockets
 

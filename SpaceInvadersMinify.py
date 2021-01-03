@@ -50,7 +50,7 @@ class a:
 
     def shoot(A):
         if __import__('random').choice([N, M]):
-            B = R(A.rect.x, A.rect.y, A.rocket_speed, N)
+            B = R(A.rect.x+(A.rect.width/2), A.rect.y, A.rocket_speed, N)
             global G
             G.append(B)
 
