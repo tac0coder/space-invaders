@@ -7,6 +7,8 @@ game_height = 550
 # play forever?
 if input('\n\n\n\nPlay forever mode? Y/N ') == 'Y':
     play_forever = True
+else:
+    play_forever = False
 screen = pygame.display.set_mode((game_width, game_height))
 clock = pygame.time.Clock()
 running = True
@@ -98,9 +100,10 @@ while running:
     # blit lives
     pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(
         0, 0, 60, player.get_height()))
-    for (i, var) in zip([20, 75, 130], list(range(__import__('math').ceil(player_lives)))):
-        screen.blit(pygame.image.load(
-            'C:\\Users\\Growl\\OneDrive\\CodaKid\\CodaKid_Python_1\\My Classwork\\space invaders\\images\\player_01.png'), (i, 20))
+    if not play_forever:
+        for (i, var) in zip([20, 75, 130], list(range(__import__('math').ceil(player_lives)))):
+            screen.blit(pygame.image.load(
+                'C:\\Users\\Growl\\OneDrive\\CodaKid\\CodaKid_Python_1\\My Classwork\\space invaders\\images\\player_01.png'), (i, 20))
 
     # decrease frame counters
     frame_counters[0] -= 1
@@ -144,7 +147,7 @@ while running:
 # test if an alien's shot hit the player or vice versa
     for i in rockets:
 
-        if i.alien and player_rect.colliderect(i.rect) and frame_counters[3] <= 0 and not play_forever:
+        if i.alien and player_rect.colliderect(i.rect) and frame_counters[3] <= 0:
             player_lives -= 1
             frame_counters[3] = 20
             player = player_hit
@@ -158,7 +161,7 @@ while running:
 # test if lives are O.K.
     if player_lives == 0:
         screen.blit(player_hit, dest=(player_rect.x, player_rect.y))
-        pygame.time.delay(200)
+
 # test if aliens can shoot:
     if frame_counters[1] <= 0:
         try:
@@ -182,7 +185,7 @@ while running:
         for i in aliens:
             i.move()
     # test if lives are ok
-    if player_lives <= 0:
+    if player_lives <= 0 and not play_forever:
         running = False
     pygame.display.flip()
     clock.tick(50)
