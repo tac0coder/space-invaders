@@ -83,10 +83,15 @@ class Alien():
             self.rect.x = 0
             self.rect.y += 60
 
-        global screen
-        if self.rect.y >= 420:
+        global screen, play_forever, aliens
+        if self.rect.y >= 420 and not play_forever:
             global player_lives
             player_lives = 0
+        if self.rect.y >= 420 and play_forever:
+            aliens = []
+            for i in range(0, 501, __import__('math').ceil(500/7.5)):
+                for var in range(50, 326, __import__('math').ceil(250/5.5)):
+                    aliens.append(Alien(i, var, 25, 5))
 
 
 # make aliens
