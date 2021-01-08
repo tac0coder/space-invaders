@@ -4,6 +4,7 @@ import pygame
 pygame.init()
 game_width = 570
 game_height = 550
+cheat = False
 # play forever?
 if input('\n\n\n\nPlay forever mode? Y/N ') == 'Y':
     play_forever = True
@@ -126,13 +127,14 @@ while running:
     for i in rockets:
         i.shoot()
 
-    # exit test
+    # exit test and
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
-    # move and shoot
+
+    # move and shoot AND CHEAT
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and not player_rect.x-6 <= 0:
         player_rect.x -= 5
@@ -142,8 +144,14 @@ while running:
 
     if keys[pygame.K_SPACE] and frame_counters[0] <= 0:
         rockets.append(Rocket(player_rect.x, player_rect.y-10, 3, False))
-        frame_counters[0] = 45
-
+        if not cheat:
+            frame_counters[0] = 45
+        else:
+            frame_counters[0] = 0
+    if keys[pygame.K_LSHIFT]:
+        cheat = True
+    if keys[pygame.K_RSHIFT]:
+        cheat = False
     # revert player to normal image
     if frame_counters[4] == 0:
         player = player_def
