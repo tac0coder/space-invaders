@@ -19,7 +19,7 @@ player_rect = pygame.Rect(220, 480,
                           player.get_width(), player.get_height())
 earth = pygame.Rect(0, 470, 570, 120)
 '''#MARK'''
-frame_counters = [45, 145, 35, 20, 50, 30]
+frame_counters = [45, 145, 35, 20, 30]
 player_def = pygame.image.load(
     'C:\\Users\\Growl\\OneDrive\\CodaKid\\CodaKid_Python_1\\My Classwork\\space invaders\\images\\player_01.png')
 # test shoot function to test if i can shoot
@@ -89,7 +89,7 @@ for i in range(0, 501, __import__('math').ceil(500/7.5)):
     for var in range(50, 326, __import__('math').ceil(250/5.5)):
         aliens.append(Alien(i, var, 25, 5))
 
-        # The main game loop.  This code repeats forever
+# The main game loop.  This code repeats forever
 while running:
 
     # blit lives
@@ -105,7 +105,7 @@ while running:
     frame_counters[2] -= 1
     frame_counters[3] -= 1
     frame_counters[4] -= 1
-    frame_counters[5] -= 1
+
     # draw earth
 
     pygame.draw.rect(screen, (43, 186, 33), earth)
@@ -132,10 +132,11 @@ while running:
     if keys[pygame.K_SPACE] and frame_counters[0] <= 0:
         rockets.append(Rocket(player_rect.x, player_rect.y-10, 3, False))
         frame_counters[0] = 45
+
     # revert player to normal image
-    if frame_counters[5] == 0:
+    if frame_counters[4] == 0:
         player = player_def
-        frame_counters[5] = 30
+        frame_counters[4] = 30
     '''#MARK Change this for faster shooting'''
 # test if an alien's shot hit the player or vice versa
     for i in rockets:
@@ -143,14 +144,13 @@ while running:
         if i.alien and player_rect.colliderect(i.rect) and frame_counters[3] <= 0:
             player_lives -= 1
             frame_counters[3] = 20
-            pygame.time.delay(200)
             player = player_hit
             del rockets[rockets.index(i)]
         for var in aliens:
-            if not i.alien and i.rect.colliderect(var.rect) and frame_counters[4] <= 0:
+
+            if not i.alien and i.rect.colliderect(var.rect):
                 del aliens[aliens.index(var)]
-                frame_counters[4] = 50
-                pygame.time.delay(200)
+                i.hit = True
                 del rockets[rockets.index(i)]
 # test if lives are O.K.
     if player_lives == 0:
